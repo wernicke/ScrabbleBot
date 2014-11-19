@@ -116,7 +116,8 @@ class ScrabbleGame:
     def play_one_move(self, verbosity: int) -> ScrabbleUtils.ScrabbleMove:
 
         if verbosity >= 1:
-            print("\nPlayer " + str(self._current_player) + "'s turn:")
+            print("\nNext turn: Player " + str(self._current_player)
+                  + " ('" + self._players[self._current_player].name + "')")
 
         # As a service to the AI, we pre-calculate the legal moves
         current_letters = "".join(self._player_letters[self._current_player])
@@ -143,9 +144,17 @@ class ScrabbleGame:
             self._board.execute_move(next_move)
             if verbosity >= 1:
                 ScrabbleUtils.print_move(next_move)
-                print("For " + str(move_score) + " points.")
+
+            if verbosity > 0:
+                print("New scores:", end="")
+                for i in range(0, len(self._scores)):
+                    print(" " + self._players[i].name + ":" + str(self._scores[i]), end="")
+                    if i == self._current_player:
+                        print("(+" + str(move_score) + ")", end="")
+                print("")
+
             if verbosity >= 2:
-                self._board.print()
+                    self._board.print()
 
             # Remove old letters and draw new letters
             current_letterset = self._player_letters[self._current_player]
@@ -158,10 +167,9 @@ class ScrabbleGame:
             #print(current_letterset)
             self._rounds_without_move = 0
         else:
+            if verbosity > 0:
+                print("Doesn't play anything this move")
             self._rounds_without_move += 1
-
-        if verbosity > 0:
-            print("Scores: " + str(self._scores))
 
         # Game ends when there are no moves left for anyone
         if self._rounds_without_move == self._numplayers:

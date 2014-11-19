@@ -5,12 +5,20 @@
 
 __author__ = 'Sebastian Wernicke'
 
+# Import utilities
 from ScrabbleBot import ScrabbleMatch
 from ScrabbleBot import ScrabbleAI
 
+# Import robots
+from QUBot import QUBot
+from GreedyBot import GreedyBot
+from RandomBot import RandomBot
+from CarefulGreedyBot import CarefulGreedyBot
+from QBot import QBot
+
 
 # Specify the set of players
-players = [ScrabbleAI.GreedyBot("Greedy"), ScrabbleAI.CarefulGreedyBot("Carey")]
+players = [QBot("Q-Bert"), GreedyBot("Greedy")]
 
 # Number of match rounds
 num_rounds = 100
